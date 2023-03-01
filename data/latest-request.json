@@ -1,0 +1,37 @@
+{
+  "Entity_1": {
+    "Type": "Type_1",
+    "Score": "75",
+    "Rating": "positive",
+    "Date": "09-2022",
+    "Action_Type": "login"
+  },
+  "Entity_2": {
+    "Type": "Type_2",
+    "Score": "-15",
+    "Rating": "negative",
+    "Date": "01-2022",
+    "Action_Type": "login"
+  },
+  "Entity_3": {
+    "Type": "Type_3",
+    "Score": "80",
+    "Rating": "positive",
+    "Date": "05-2022",
+    "Action_Type": "alert"
+  },
+  "Entity_4": {
+    "Type": "Type_4",
+    "Score": "-69",
+    "Rating": "negative",
+    "Date": "11-2022",
+    "Action_Type": "payment"
+  },
+  "Entity_5": {
+    "Type": "Type_5",
+    "Score": "-39",
+    "Rating": "negative",
+    "Date": "01-2019",
+    "Action_Type": "alert"
+  }
+}
