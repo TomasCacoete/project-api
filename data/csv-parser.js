@@ -31,4 +31,26 @@ function getEveryIdentityFromCSV(...wanted_attributes){
     return entities;
 }
 
-module.exports = {getEveryIdentityFromCSV};
+function getOneIdentityFromCSV(id){
+    var data = fs.readFileSync("data/data.csv", "utf8");
+    var lines = data.split("\n");
+
+    var entity_atributes = lines[0].split(",");
+    lines.shift();
+    var info;
+    for(var i = 0; i < lines.length; i++){
+        lines[i] = lines[i].split(",");
+        if(lines[i][0] == id){
+            info = lines[i];
+            break;
+        }
+    }
+    entity = {};
+    for(var i = 1; i < info.length;i++){
+        entity[entity_atributes[i]] = info[i];
+    }
+    fs.writeFileSync('data/latest-request.json', JSON.stringify(entity, null, 2));
+    return entity;
+}
+
+module.exports = {getEveryIdentityFromCSV,getOneIdentityFromCSV};
