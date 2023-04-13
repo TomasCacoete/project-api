@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Gráfico de Coordenadas Paralelas com D3.js</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+  <svg></svg>
+
+  <script>
+    // set the dimensions and margins of the graph
+    const margin = {top: 30, right: 10, bottom: 10, left: 0},
+    width = 500 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+    const svg = d3.select("body")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",`translate(${margin.left},${margin.top})`);
+
+    // Define as dimensões e os valores das escalas
+    var dimensions = ["Rating", "Date", "Action_Type"];
+
+    var x = d3.scalePoint()
+      .range([0, width])
+      .padding(1)
+      .domain(dimensions);
+
+    var y = {};
+    var positiveColor = "green";
+    var negativeColor = "red";
+
+    // Carrega o arquivo CSV e cria o gráfico
+    d3.json("http://localhost:3000/entities").then(function(data) {
+
+      // Cria as escalas para cada dimensão
+      dimensions.forEach(function(dimension) {
+        y[dimension] = d3.scaleBand()
+          .domain(data.map(function(d) { return d[dimension]; }))
+          .range([height,0])
+          .padding(1);
+      });
+
+      // Cria as funções para desenhar as linhas
+       function path(d) {
+        return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+      }
+
+      // Cria o eixo Y para cada dimensão
+      var yAxes = {};
+      dimensions.forEach(function(dimension) {
+        yAxes[dimension] = d3.axisLeft(y[dimension]);
+      }); 
+
+      // Adiciona os eixos X e Y ao gráfico
+      svg.selectAll("myAxis")
+    // For each dimension of the dataset I add a 'g' element:
+         .data(dimensions).enter()
+         .append("g")
+          .attr("class", "x axis")
+          .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+          .append("text")
+          .style("text-anchor", "middle")
+          .attr("y", -9)
+          .text(function(d) { return d.replace('_',' '); })
+          .style("fill", "black")
+
+      dimensions.forEach(function(dimension) {
+        svg.append("g")
+            .attr("class", "y axis dimension")
+            .attr("transform", function(d) { return "translate(" + x(dimension) + ")"; })
+            .call(yAxes[dimension]);
+      });
+
+      // Adiciona as linhas ao gráfico
+      var paths = svg.selectAll(".line")
+          .data(data)
+          .enter()
+        .append("path")
+          .attr("class", function (d) { return "line " + d.Rating } )
+          .attr("d", path)
+          .style("stroke", function(d) {
+            return d.Rating == "positive" ? positiveColor : negativeColor;
+          })
+          .style("opacity", 0.5)
+          .style("fill", "none");
+    });
+  </script>
+  </body>
+  </html>

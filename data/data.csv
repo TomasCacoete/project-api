@@ -3,4 +3,3 @@ Entity_1,Type_1,75,positive,09-2022,login
 Entity_2,Type_2,-15,negative,01-2022,login
 Entity_3,Type_3,80,positive,05-2022,alert
 Entity_4,Type_4,-69,negative,11-2022,payment
-Entity_5,Type_5,-39,negative,01-2019,alert
