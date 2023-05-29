@@ -25,7 +25,7 @@
         .attr("transform",`translate(${margin.left},${margin.top})`);
 
     // Define as dimensões e os valores das escalas
-    var dimensions = ["Rating", "Date", "Action_Type"];
+    var dimensions = ["rating", "date", "action_type"];
 
     var x = d3.scalePoint()
       .range([0, width])
@@ -37,7 +37,7 @@
     var negativeColor = "red";
 
     // Carrega o arquivo CSV e cria o gráfico
-    d3.json("http://localhost:3000/entities").then(function(data) {
+    d3.json("http://localhost:3000/entities/api.box2m.io:b666ca65-0faa-4e8b-a4bb-b5db253dd878").then(function(data) {
 
       // Cria as escalas para cada dimensão
       dimensions.forEach(function(dimension) {
@@ -68,7 +68,9 @@
           .append("text")
           .style("text-anchor", "middle")
           .attr("y", -9)
-          .text(function(d) { return d.replace('_',' '); })
+          .text(function(d) { if(d === "rating") return "Rating";
+                              else if(d === "date") return "Date";
+                              else return "Action Type"; })
           .style("fill", "black")
 
       dimensions.forEach(function(dimension) {
@@ -83,10 +85,10 @@
           .data(data)
           .enter()
         .append("path")
-          .attr("class", function (d) { return "line " + d.Rating } )
+          .attr("class", function (d) { return "line " + d.rating } )
           .attr("d", path)
           .style("stroke", function(d) {
-            return d.Rating == "positive" ? positiveColor : negativeColor;
+            return d.rating === "positive" ? positiveColor : negativeColor;
           })
           .style("opacity", 0.5)
           .style("fill", "none");

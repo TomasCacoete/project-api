@@ -57,10 +57,11 @@ async function getIdentityInfo(client, id){
         var info = [];
         for(var i=0; i<result.rows.length; i++){
             var dic = {};
-            dic["name"] = result.rows[i].arcadian_id;
-            dic["type"] = result.rows[i].type;
-            dic["reputation_score"] = result.rows[i].reputation_value;
-            dic["rating"] = result.rows[i].sent;
+            //dic["name"] = result.rows[i].arcadian_id;
+            //dic["type"] = result.rows[i].type;
+            //dic["reputation_score"] = result.rows[i].reputation_value;
+            if(result.rows[i].sent == true) dic["rating"] = "positive";
+            else dic["rating"] = "negative";
             dic["date"] = date.eventMonthYear(result.rows[i].update_time);
             dic["action_type"] = result.rows[i].action_type;
             info.push(dic);
