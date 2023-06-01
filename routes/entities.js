@@ -18,9 +18,13 @@ router.get("/", async (req, res) => {
     var every_identity_info = await cassandra_parser.getAllInfoMainPage(client);
     res.status(200).send(JSON.stringify(every_identity_info, null, 2));
 })
+router.get("/statistics", async (req, res) => {
+    var statistics_info = await cassandra_parser.getAllInfoStatisticsPage(client);
+    res.status(200).send(JSON.stringify(statistics_info, null, 2));
+})
 router.get("/:id", async (req, res) => {
     var identity_info = await cassandra_parser.getIdentityInfo(client, req.params.id);
-    res.status(200).send(JSON.stringify(identity_info, null, 2))
+    res.status(200).send(JSON.stringify(identity_info, null, 2));
 })
 
 module.exports = router
