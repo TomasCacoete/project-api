@@ -1,15 +1,16 @@
+require("dotenv").config();
 const express = require("express");
 const cassandra = require("cassandra-driver");
 
 const router = express.Router();
-const authProvider = new cassandra.auth.PlainTextAuthProvider("cassandra","cassandra");
+const authProvider = new cassandra.auth.PlainTextAuthProvider(process.env.CASSANDRA_USERNAME,process.env.CASSANDRA_PASSWORD);
 
 const client = new cassandra.Client({
-    contactPoints: ["aiot-rs-prod.dei.uc.pt"],
-    protocolOptions: { port: 9009 },
-    localDataCenter: "datacenter1",
+    contactPoints: [process.env.CASSANDRA_HOST],
+    protocolOptions: { port: process.env.CASSANDRA_PORT },
+    localDataCenter: process.env.CASSANDRA_DATACENTER,
     authProvider,
-    keyspace: "repsys"
+    keyspace: process.env.CASSANDRA_KEYSPACE
 });
 
 const cassandra_parser = require("../data/cassandra-parser.js");

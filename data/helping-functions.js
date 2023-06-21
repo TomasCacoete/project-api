@@ -4,18 +4,17 @@ function padTo2Digits(num) {
 
 function eventMonthYear(dateString) {
     var date = new Date(parseInt(dateString));
-    return(
+    return (
         [
             padTo2Digits(date.getMonth() + 1),
             padTo2Digits(date.getFullYear()),
-        ].join('-')
-        );
+        ].join('/')
+    );
 }
 
-module.exports = {eventMonthYear};
-
-/*function formatDate(date) {
-    return(
+function formatFullDate(dateString) {
+    var date = new Date(parseInt(dateString));
+    return (
         [ 
             padTo2Digits(date.getDate()),
             padTo2Digits(date.getMonth() + 1),
@@ -26,8 +25,25 @@ module.exports = {eventMonthYear};
           padTo2Digits(date.getMinutes()),
           padTo2Digits(date.getSeconds()),
         ].join(':')
-        );
-}*/
+    );
+}
+
+function formatDate(date) {
+    return (
+        [ 
+            padTo2Digits(date.getDate()),
+            padTo2Digits(date.getMonth() + 1),
+            padTo2Digits(date.getFullYear()),
+        ].join('/')  + ' ' +
+        [
+          padTo2Digits(date.getHours()),
+          padTo2Digits(date.getMinutes()),
+          padTo2Digits(date.getSeconds()),
+        ].join(':')
+    );
+}
+
+module.exports = {eventMonthYear, formatFullDate, formatDate};
 
 
 //const time1 = "1684509405000";
